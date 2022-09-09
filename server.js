@@ -10,7 +10,10 @@ app.use(express.json());
 
 app.post('/info/', (req,res) => {
     let { urls } = req.body;
-    urls = urls.split(/\n/);
+    //urls = urls.split(/\n/);
+    //if(urls[urls.length-1] === '') urls.pop();
+    console.log(urls);
+    
     dataArr = [];
     urls.forEach(url => {
         scrapeUrl(url).then(data => {
@@ -33,7 +36,12 @@ async function scrapeUrl(url){
         let cid = $('[property=property]')[0].attribs['content'];
         if(/-brandfilter/.test(cid)) cid = cid.replace(/-brandfilter/,'');
         const brandName = $('span.refinement-text-container').text();
-        const salesForceSyntaxURL = `$httpsUrl('Search-Show','cgid','${cid}','prefn1','brand','prefv1','${brandName}')$`;
+        let salesForceSyntaxURL = '';
+        if(brandName === '' || cid === '') {
+            salesForceSyntaxURL = 'No combination page found';
+        } else {
+            salesForceSyntaxURL = `$httpsUrl('Search-Show','cgid','${cid}','prefn1','brand','prefv1','${brandName}')$`;
+        }
         const row = {url, salesForceSyntaxURL};
         return row;
  }
