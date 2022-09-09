@@ -6,10 +6,30 @@ const baseURL = 'http://localhost:8383/info/';
 
 postBtn.addEventListener('click', postInfo);
 
-function polling(){
-    const lengthInputUrls = input.value.split(/\n/).length;
+async function postInfo(e){
+    e.preventDefault();
+    if(input.value == '') return;
+    let urlInput = input.value.split(/\n/);
+    console.log(urlInput);
+    if(urlInput[urlInput.length-1] === '') urlInput.pop();
+    const response = await fetch(baseURL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            urls: urlInput
+        })
+    })
+    
+    polling(urlInput);
+}
+
+function polling(urls){
+    const lengthInputUrls = urls.length;
 
     const intervalId = setInterval(async () => {
+        console.log('polling', lengthInputUrls)
 
         const response = await fetch(baseURL).then(data => data.json());
 
@@ -24,21 +44,4 @@ function polling(){
             clearInterval(intervalId)
         };
     }, 1000)
-
-}
-
-async function postInfo(e){
-    e.preventDefault();
-    if(input.value == '') return;
-    const response = await fetch(baseURL, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            urls: input.value
-        })
-    })
-    
-    polling();
 }
