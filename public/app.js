@@ -29,9 +29,11 @@ function polling(urls){
     const lengthInputUrls = urls.length;
 
     const intervalId = setInterval(async () => {
-        console.log('polling', lengthInputUrls)
-
+        
         const response = await fetch(baseURL).then(data => data.json());
+        
+        console.log('polling', 'lengthInputUrls', lengthInputUrls, 'response.length', response.length)
+
 
         if(lengthInputUrls === response.length) {
             let rows = '';
