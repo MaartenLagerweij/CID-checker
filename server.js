@@ -11,30 +11,15 @@ let dataArr = [];
 
 app.post('/info/', async (req,res) => {
     let { urls } = req.body;
-    //urls = urls.split(/\n/);
-    //if(urls[urls.length-1] === '') urls.pop();
-    
-    
-    
-    //console.log(urls, dataArr);
-    // urls.forEach(url => {
-    //     scrapeUrl(url).then(data => {
-    //         dataArr.push(data);
-    //     });
-    // })
 
     const promises = urls.map(async(url) => await scrapeUrl(url));
 
     dataArr = await Promise.all(promises);
-
-    console.log('dataArr before app.get: ',dataArr);
-
     
     res.status(200).send({status: 'urls received'});
 });
 
 app.get('/info/',(req,res)=> {
-    console.log('dataArr inside app.get: ',dataArr);
     res.status(200).json(dataArr);
 })
 
