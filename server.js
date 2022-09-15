@@ -7,6 +7,7 @@ const PORT = 8383;
 app.use(express.static('public'));
 app.use(express.json());
 
+let dataArr = [];
 
 app.post('/info/', async (req,res) => {
     let { urls } = req.body;
@@ -14,7 +15,7 @@ app.post('/info/', async (req,res) => {
     //if(urls[urls.length-1] === '') urls.pop();
     
     
-    let dataArr = [];
+    
     //console.log(urls, dataArr);
     // urls.forEach(url => {
     //     scrapeUrl(url).then(data => {
@@ -28,12 +29,14 @@ app.post('/info/', async (req,res) => {
 
     console.log('dataArr before app.get: ',dataArr);
 
-    app.get('/info/',(req,res)=> {
-        console.log('dataArr inside app.get: ',dataArr);
-        res.status(200).json(dataArr);
-    })
+    
     res.status(200).send({status: 'urls received'});
 });
+
+app.get('/info/',(req,res)=> {
+    console.log('dataArr inside app.get: ',dataArr);
+    res.status(200).json(dataArr);
+})
 
 app.listen(PORT, () => console.log(`Server has started on port ${PORT}`));
 
