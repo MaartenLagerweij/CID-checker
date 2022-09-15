@@ -24,3 +24,15 @@ table {
     text-align: left;
     padding: 8px;
   }
+
+  .display-none-button {
+    display: none;
+  }
+
+  .alert-message {
+    width: 250px;
+    margin: auto;
+    text-decoration: underline;
+    border-color: red;
+    color: red;
+}
