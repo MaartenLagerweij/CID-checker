@@ -10,6 +10,11 @@ async function postInfo(e){
     e.preventDefault();
     if(input.value == '') return;
     let urlInput = input.value.split(/\n/);
+    if(urlInput.length > 100) {
+        return document.getElementById('max-100').classList.remove('display-none-button');
+    } else {
+        document.getElementById('max-100').classList.add('display-none-button');
+    }
     console.log(urlInput);
     if(urlInput[urlInput.length-1] === '') urlInput.pop();
     const response = await fetch(baseURL, {
