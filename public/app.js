@@ -11,12 +11,14 @@ async function postInfo(e){
     if(input.value == '') return;
     let urlInput = input.value.split(/\n/);
     if(urlInput.length > 100) {
+        output.innerHTML = '';
         return document.getElementById('max-100').classList.remove('display-none-button');
     } else {
         document.getElementById('max-100').classList.add('display-none-button');
     }
     console.log(urlInput);
     if(urlInput[urlInput.length-1] === '') urlInput.pop();
+    output.innerHTML = `Creating CID url's for ${urlInput.length} pages... Loading...`;
     const response = await fetch(baseURL, {
         method: 'POST',
         headers: {
