@@ -2,7 +2,8 @@ const postBtn = document.getElementById('post');
 const input = document.getElementById('input');
 const output = document.getElementById('output');
 
-const baseURL = 'http://localhost:8383/info/';
+const devBaseURL = 'http://localhost:5001/cid-checker-362410/europe-west1/cidChecker/info/';
+const prodBaseURL = 'https://europe-west1-cid-checker-362410.cloudfunctions.net/cidChecker/info/';
 
 postBtn.addEventListener('click', postInfo);
 
@@ -19,7 +20,7 @@ async function postInfo(e){
     console.log(urlInput);
     if(urlInput[urlInput.length-1] === '') urlInput.pop();
     output.innerHTML = `Creating CID url's for ${urlInput.length} pages... Loading...`;
-    const response = await fetch(baseURL, {
+    const response = await fetch(prodBaseURL, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -37,7 +38,7 @@ function polling(urls){
 
     const intervalId = setInterval(async () => {
         
-        const response = await fetch(baseURL).then(data => data.json());
+        const response = await fetch(prodBaseURL).then(data => data.json());
         
         console.log('polling', 'lengthInputUrls', lengthInputUrls, 'response.length', response.length)
 
